@@ -1,0 +1,45 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Rally</title>
+    <script src="./main.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <section class="intro">
+      <div class="game-title">
+        Retro <br />
+        Rally
+      </div>
+      <img src="./assets/svg/pixel-car-red-side.svg" />
+      <button class="play">play</button>
+    </section>
+    <section class="console-emulator hide">
+      <div class="console">
+        <div class="console-screen">
+          <div class="CarGame">
+            <div class="score"></div>
+            <div class="GameArea blank">
+              Press A to start <br /><br />
+              Use left/right arrow keys
+            </div>
+          </div>
+        </div>
+        <div class="console-controls">
+          <div class="dpad">
+            <button id="up"></button>
+            <button id="right"></button>
+            <button id="left"></button>
+            <button id="down"></button>
+          </div>
+          <div class="selections">
+            <button id="a">A</button>
+            <button id="b">B</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
