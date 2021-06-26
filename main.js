@@ -16,33 +16,46 @@ document.addEventListener("DOMContentLoaded", function () {
     ArrowRight: false,
     ArrowLeft: false,
   };
-  let interval = setInterval(increment, 20000);
+  let speedInterval = setInterval(speedIncrement, 20000);
 
   aButton.addEventListener("click", start);
   bButton.addEventListener("click", resetScore);
-  rightButton.addEventListener("mousedown", function () {
-    keys["ArrowRight"] = true;
-  });
-  rightButton.addEventListener("mouseup", function () {
-    keys["ArrowRight"] = false;
-  });
-  leftButton.addEventListener("mousedown", function () {
-    keys["ArrowLeft"] = true;
-  });
-  leftButton.addEventListener("mouseup", function () {
-    keys["ArrowLeft"] = false;
-  });
   play.addEventListener("click", function () {
     intro.classList.add("hide");
     consoleEm.classList.remove("hide");
   });
+
   document.addEventListener("keydown", keyDown);
   document.addEventListener("keyup", keyUp);
 
-  function increment() {
+  ["mousedown", "touchstart"].forEach((evnt) =>
+    rightButton.addEventListener(evnt, function () {
+      keys["ArrowRight"] = true;
+    })
+  );
+
+  ["mouseup", "touchend"].forEach((evnt) =>
+    rightButton.addEventListener(evnt, function () {
+      keys["ArrowRight"] = false;
+    })
+  );
+
+  ["mousedown", "touchstart"].forEach((evnt) =>
+    leftButton.addEventListener(evnt, function () {
+      keys["ArrowLeft"] = true;
+    })
+  );
+
+  ["mouseup", "touchend"].forEach((evnt) =>
+    leftButton.addEventListener(evnt, function () {
+      keys["ArrowLeft"] = false;
+    })
+  );
+
+  function speedIncrement() {
     player.speed = player.speed + 0.5;
-    if (player.speed > 5) {
-      clearInterval(interval);
+    if (player.speed === 6) {
+      clearInterval(speedInterval);
     }
   }
 
@@ -51,10 +64,12 @@ document.addEventListener("DOMContentLoaded", function () {
     pressButton(ev.key);
     keys[ev.key] = true;
   }
+
   function keyUp(ev) {
     ev.preventDefault();
     keys[ev.key] = false;
   }
+
   function pressButton(key) {
     if (key === "a" || key === "A") {
       triggerClick(aButton);
@@ -75,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
       triggerClick(leftButton);
     }
   }
+
   function triggerClick(button) {
     button.classList.add("active");
     button.click();
@@ -82,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
       button.classList.remove("active");
     }, 100);
   }
+
   function isCollide(a, b) {
     aRect = a.getBoundingClientRect();
     bRect = b.getBoundingClientRect();
@@ -93,9 +110,10 @@ document.addEventListener("DOMContentLoaded", function () {
       aRect.left > bRect.right
     );
   }
+
   function moveLines() {
     let lines = document.querySelectorAll(".lines");
-    lines.forEach(function (item) {
+    lines.forEach((item) => {
       if (item.y >= 700) {
         item.y -= 750;
       }
@@ -103,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
       item.style.top = item.y + "px";
     });
   }
+
   function endGame() {
     setTimeout(() => {
       window.localStorage.setItem("roadRallyHiScore", highest);
@@ -113,9 +132,10 @@ document.addEventListener("DOMContentLoaded", function () {
     player.speed = 3;
     player.start = false;
   }
+
   function moveCar(car) {
     let other = document.querySelectorAll(".other");
-    other.forEach(function (item) {
+    other.forEach((item) => {
       if (isCollide(car, item)) {
         endGame();
       }
@@ -129,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
       item.style.top = item.y + "px";
     });
   }
+
   function gamePlay() {
     let car = document.querySelector(".car");
     let road = gamearea.getBoundingClientRect();
@@ -192,6 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
       gamearea.appendChild(othercar);
     }
   }
+
   function resetScore() {
     if (!gamearea.classList.contains("blank")) {
       return;
